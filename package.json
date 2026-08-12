@@ -1,0 +1,29 @@
+{
+  "name": "ai-se_project_mesh-ai",
+  "version": "1.0.0",
+  "description": "Backend scaffold for MeshAI",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tripleten-com/ai-se_project_mesh-ai.git"
+  },
+  "keywords": [],
+  "author": "Felix Pasillas",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/tripleten-com/ai-se_project_mesh-ai/issues"
+  },
+  "homepage": "https://github.com/tripleten-com/ai-se_project_mesh-ai#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^26.2.0",
+    "typescript": "^7.0.2"
+  }
+}
