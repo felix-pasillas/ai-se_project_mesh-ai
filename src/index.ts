@@ -18,6 +18,14 @@ app.get('/health', (req, res): void => {
   });
 });
 
+app.use((req, res): void => {
+  res.status(404).json({
+    success: false,
+    data: null,
+    error: 'Not Found',
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
