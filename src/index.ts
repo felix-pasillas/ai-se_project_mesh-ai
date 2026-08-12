@@ -26,6 +26,15 @@ app.use((req, res): void => {
   });
 });
 
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction): void => {
+  console.error(err);
+  res.status(500).json({
+    success: false,
+    data: null,
+    error: 'Internal Server Error',
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
