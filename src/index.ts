@@ -1,10 +1,12 @@
 import express from 'express';
 import router from './routes/index.js';
+import { logger } from './middleware/logger.js';
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use(logger);
 
 app.use(router);
 
