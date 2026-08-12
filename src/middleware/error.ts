@@ -4,7 +4,7 @@ export const notFoundHandler = (req: Request, res: Response): void => {
   res.status(404).json({
     success: false,
     data: null,
-    error: 'Not Found',
+    error: `Route ${req.method} ${req.path} not found`,
   });
 };
 
@@ -18,6 +18,6 @@ export const errorHandler = (
   res.status(500).json({
     success: false,
     data: null,
-    error: 'Internal Server Error',
+    error: 'An error has occurred on the server',
   });
 };
