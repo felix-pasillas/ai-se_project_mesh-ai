@@ -32,3 +32,35 @@ export const createChat = (req: Request, res: Response): void => {
     error: null,
   });
 };
+
+export const getChatById = (req: Request, res: Response): void => {
+  res.status(200).json({
+    success: true,
+    data: {
+      chatId: req.params.id,
+      title: 'Sample Chat',
+      createdAt: '2026-01-01T00:00:00Z',
+    },
+    error: null,
+  });
+};
+
+export const deleteChat = (req: Request, res: Response): void => {
+  res.status(204).send();
+};
+
+export const sendMessage = (req: Request, res: Response): void => {
+  const body = req.body ?? {};
+
+  res.status(201).json({
+    success: true,
+    data: {
+      chatId: req.params.id,
+      messageId: 'msg_001',
+      userMessage: body.message ?? null,
+      reply: 'This is a fake AI reply.',
+      createdAt: new Date().toISOString(),
+    },
+    error: null,
+  });
+};
