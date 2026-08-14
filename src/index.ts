@@ -19,7 +19,7 @@ app.get('/health', (req, res): void => {
   });
 });
 
-app.get('/test-error', (req, res) => {
+app.get('/test-error', (_req, _res) => {
   throw new Error('Test error');
 });
 
