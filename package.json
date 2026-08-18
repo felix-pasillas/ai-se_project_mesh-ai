@@ -24,7 +24,8 @@
   },
   "homepage": "https://github.com/tripleten-com/ai-se_project_mesh-ai#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "mongoose": "^9.9.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
