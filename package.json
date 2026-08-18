@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/tripleten-com/ai-se_project_mesh-ai#readme",
   "dependencies": {
+    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "mongoose": "^9.9.3"
   },
