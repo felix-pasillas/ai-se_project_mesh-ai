@@ -2,6 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import express from 'express';
+import mongoose from 'mongoose';
 import router from './routes/index.js';
 import { logger } from './middleware/logger.js';
 import { notFoundHandler, errorHandler } from './middleware/error.js';
@@ -29,6 +30,12 @@ app.get('/test-error', (_req, _res) => {
 app.use(notFoundHandler);
 app.use(errorHandler);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+mongoose
+  .connect(process.env.MONGO_URI!)
+  .then(() => {
+    console.log('MongoDB connected');
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch((err) => {
+    console.error('Connection error', err);
+  });
