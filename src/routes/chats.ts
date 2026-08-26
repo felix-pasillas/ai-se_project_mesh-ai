@@ -2,7 +2,7 @@ import { Router } from 'express';
 import {
   getChats,
   createChat,
-  getChatById,
+  getChat,
   deleteChat,
   sendMessage,
 } from '../controllers/chats.js';
@@ -14,7 +14,7 @@ chatsRouter.use(auth);
 
 chatsRouter.get('/', getChats);
 chatsRouter.post('/', createChat);
-chatsRouter.get('/:id', getChatById);
+chatsRouter.get('/:id', getChat);
 chatsRouter.delete('/:id', deleteChat);
 chatsRouter.post('/:id/messages', sendMessage);
 

@@ -1,46 +1,62 @@
 import type { Request, Response } from 'express';
+import Chat from '../models/chat.js';
+import Message from '../models/message.js';
 
-export const getChats = (req: Request, res: Response): void => {
-  res.status(200).json({
-    success: true,
-    data: [
-      {
-        chatId: 'chat_001',
-        title: 'First conversation',
-        createdAt: '2026-01-01T00:00:00Z',
-      },
-      {
-        chatId: 'chat_002',
-        title: 'Second conversation',
-        createdAt: '2026-01-02T00:00:00Z',
-      },
-    ],
-    error: null,
-  });
-};
+export const createChat = async (req: Request, res: Response): Promise<void> => {
+  const { title } = req.body ?? {};
+  const userId = req.user!.userId;
 
-export const createChat = (req: Request, res: Response): void => {
-  const body = req.body ?? {};
+  if (!title) {
+    res.status(400).json({
+      success: false,
+      data: null,
+      error: { message: 'title is required' },
+    });
+    return;
+  }
+
+  const chat = await Chat.create({ title, userId });
 
   res.status(201).json({
     success: true,
-    data: {
-      chatId: 'chat_003',
-      title: body.title ?? 'New Chat',
-      createdAt: new Date().toISOString(),
-    },
+    data: chat,
     error: null,
   });
 };
 
-export const getChatById = (req: Request, res: Response): void => {
+export const getChats = async (req: Request, res: Response): Promise<void> => {
+  const userId = req.user!.userId;
+
+  const chats = await Chat.find({ userId });
+
   res.status(200).json({
     success: true,
-    data: {
-      chatId: req.params.id,
-      title: 'Sample Chat',
-      createdAt: '2026-01-01T00:00:00Z',
-    },
+    data: chats,
+    error: null,
+  });
+};
+
+export const getChat = async (req: Request, res: Response): Promise<void> => {
+  const userId = req.user!.userId;
+
+  const chat = await Chat.findOne({ _id: req.params.id, userId });
+
+  if (!chat) {
+    res.status(404).json({
+      success: false,
+      data: null,
+      error: { message: 'chat not found' },
+    });
+    return;
+  }
+
+  const messages = await Message.find({ chatId: chat._id }).sort({
+    createdAt: 1,
+  });
+
+  res.status(200).json({
+    success: true,
+    data: { chat, messages },
     error: null,
   });
 };
