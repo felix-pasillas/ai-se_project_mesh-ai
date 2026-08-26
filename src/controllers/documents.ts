@@ -1,34 +1,39 @@
 import type { Request, Response } from 'express';
+import Document from '../models/document.js';
 
-export const getDocuments = (req: Request, res: Response): void => {
-  res.status(200).json({
+export const uploadDocument = async (req: Request, res: Response): Promise<void> => {
+  if (!req.file) {
+    res.status(400).json({
+      success: false,
+      data: null,
+      error: { message: 'file is required' },
+    });
+    return;
+  }
+
+  const userId = req.user!.userId;
+
+  const document = await Document.create({
+    title: req.file.originalname,
+    fileName: req.file.originalname,
+    userId,
+  });
+
+  res.status(201).json({
     success: true,
-    data: [
-      {
-        documentId: 'doc_001',
-        filename: 'report.pdf',
-        uploadedAt: '2026-01-01T00:00:00Z',
-      },
-      {
-        documentId: 'doc_002',
-        filename: 'notes.pdf',
-        uploadedAt: '2026-01-02T00:00:00Z',
-      },
-    ],
+    data: document,
     error: null,
   });
 };
 
-export const createDocument = (req: Request, res: Response): void => {
-  const body = req.body ?? {};
+export const getDocuments = async (req: Request, res: Response): Promise<void> => {
+  const userId = req.user!.userId;
 
-  res.status(201).json({
+  const documents = await Document.find({ userId });
+
+  res.status(200).json({
     success: true,
-    data: {
-      documentId: 'doc_003',
-      filename: body.filename ?? 'untitled.pdf',
-      uploadedAt: new Date().toISOString(),
-    },
+    data: documents,
     error: null,
   });
 };
