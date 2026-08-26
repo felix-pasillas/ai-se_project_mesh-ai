@@ -5,8 +5,11 @@ import {
   getDocumentById,
   deleteDocument,
 } from '../controllers/documents.js';
+import { auth } from '../middleware/auth.js';
 
 const documentsRouter = Router();
+
+documentsRouter.use(auth);
 
 documentsRouter.get('/', getDocuments);
 documentsRouter.post('/', createDocument);
