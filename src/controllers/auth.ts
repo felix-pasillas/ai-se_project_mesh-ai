@@ -30,7 +30,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     res.status(409).json({
       success: false,
       data: null,
-      error: { message: 'a user with this email already exists' },
+      error: { message: 'Email already in use' },
     });
     return;
   }
