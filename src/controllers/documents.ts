@@ -63,18 +63,49 @@ export const getDocuments = async (
   });
 };
 
-export const getDocumentById = (req: Request, res: Response): void => {
+export const getDocumentById = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const userId = req.user!.userId;
+
+  const document = await Document.findOne({ _id: req.params.id, userId });
+
+  if (!document) {
+    res.status(404).json({
+      success: false,
+      data: null,
+      error: { message: 'document not found' },
+    });
+    return;
+  }
+
   res.status(200).json({
     success: true,
-    data: {
-      documentId: req.params.id,
-      filename: 'sample-document.pdf',
-      uploadedAt: '2026-01-01T00:00:00Z',
-    },
+    data: document,
     error: null,
   });
 };
 
-export const deleteDocument = (req: Request, res: Response): void => {
+export const deleteDocument = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const userId = req.user!.userId;
+
+  const document = await Document.findOneAndDelete({
+    _id: req.params.id,
+    userId,
+  });
+
+  if (!document) {
+    res.status(404).json({
+      success: false,
+      data: null,
+      error: { message: 'document not found' },
+    });
+    return;
+  }
+
   res.status(204).send();
 };
