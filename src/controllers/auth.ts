@@ -105,3 +105,31 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     error: null,
   });
 };
+
+export const getCurrentUser = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const userId = req.user!.userId;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    res.status(404).json({
+      success: false,
+      data: null,
+      error: { message: 'user not found' },
+    });
+    return;
+  }
+
+  res.status(200).json({
+    success: true,
+    data: {
+      userId: user._id,
+      email: user.email,
+      name: user.name,
+    },
+    error: null,
+  });
+};
