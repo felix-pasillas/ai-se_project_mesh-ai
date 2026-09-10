@@ -12,6 +12,7 @@ export default function KnowledgeBase() {
   useEffect(() => {
     const load = async () => {
       try {
+        
         const res = await getDocuments();
         setDocuments(res.data || []);
       } catch {
@@ -41,6 +42,11 @@ export default function KnowledgeBase() {
       <section className="knowledge-base__content">
         <p>Upload documents (PDF)</p>
         <UploadArea onFileSelect={handleFileSelect} />
+        {isLoading && <p>Loading...</p>}
+        {!isLoading && error && <p>{error}</p>}
+        {!isLoading && !error && documents.length === 0 && (
+          <p>No documents yet.</p>
+        )}
         {!isLoading && !error && documents.length > 0 && (
           <ul className="knowledge-base__list">
             {documents.map((doc) => (
