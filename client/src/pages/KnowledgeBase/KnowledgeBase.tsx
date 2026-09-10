@@ -12,7 +12,6 @@ export default function KnowledgeBase() {
   useEffect(() => {
     const load = async () => {
       try {
-        
         const res = await getDocuments();
         setDocuments(res.data || []);
       } catch {
@@ -43,18 +42,18 @@ export default function KnowledgeBase() {
         <p>Upload documents (PDF)</p>
         <UploadArea onFileSelect={handleFileSelect} />
         {isLoading && <p>Loading...</p>}
-        {!isLoading && error && <p>{error}</p>}
+        {!isLoading && error && <p className="knowledge-base__error">{error}</p>}
         {!isLoading && !error && documents.length === 0 && (
           <p>No documents yet.</p>
         )}
         {!isLoading && !error && documents.length > 0 && (
-          <ul className="knowledge-base__list">
+          <ul className="knowledge-base__chips">
             {documents.map((doc) => (
-              <li key={doc._id} className="knowledge-base__item">
+              <li key={doc._id} className="knowledge-base__chip">
                 <span>{doc.fileName}</span>
                 <button
                   type="button"
-                  className="knowledge-base__remove"
+                  className="knowledge-base__chip-remove"
                   aria-label={`Remove ${doc.fileName}`}
                 >
                   <svg
