@@ -1,0 +1,30 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+}
+
+.header__logo {
+  height: 24px;
+  width: auto;
+}
+
+.header__nav {
+  display: flex;
+  gap: 24px;
+}
+
+.header__link {
+  font-size: 14px;
+  color: rgba(28, 28, 28, 0.6);
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.header__link--active {
+  color: #1c1c1c;
+  background-color: #f3f0ff;
+  font-weight: 500;
+}
