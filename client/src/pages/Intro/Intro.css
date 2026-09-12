@@ -71,3 +71,21 @@
 .intro__start:hover {
   background-color: #2d1b69;
 }
+
+@media (max-width: 480px) {
+  .intro {
+    padding: 0 24px;
+  }
+
+  .intro__card {
+    width: 100%;
+  }
+
+  .intro__features {
+    flex-direction: column;
+  }
+
+  .intro__start {
+    align-self: stretch;
+  }
+}
