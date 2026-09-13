@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getChats, createChat } from "../../utils/api";
 import type { Chat as ChatType } from "../../utils/api";
 import "./Chat.css";
@@ -10,6 +10,21 @@ export default function Chat() {
   const [isLoadingChats, setIsLoadingChats] = useState<boolean>(true);
   const [isCreatingChat, setIsCreatingChat] = useState<boolean>(false);
   const [newChatTitle, setNewChatTitle] = useState<string>("");
+
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await getChats();
+        setChats(res.data || []);
+      } catch {
+        setChatsError("Failed to load chats.");
+      } finally {
+        setIsLoadingChats(false);
+      }
+    };
+
+    load();
+  }, []);
 
   return <div>Chat</div>;
 }
