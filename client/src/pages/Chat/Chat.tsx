@@ -38,13 +38,13 @@ export default function Chat() {
 
         <ul className="chat__list">
           {chats.map((chat) => (
-            <li key={chat._id} className="chat__list-item">
+            <li key={chat._id}>
               <button
                 type="button"
                 className={
                   chat._id === activeChatId
-                    ? "chat__list-btn chat__list-btn--active"
-                    : "chat__list-btn"
+                    ? "chat__item chat__item_active"
+                    : "chat__item"
                 }
                 onClick={() => setActiveChatId(chat._id)}
               >
