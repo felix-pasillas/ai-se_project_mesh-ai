@@ -29,6 +29,26 @@ export default function Chat() {
     load();
   }, []);
 
+  useEffect(() => {
+    if (!activeChatId) return;
+
+    const load = async () => {
+      setMessages([]);
+      setMessagesError("");
+      setIsLoadingMessages(true);
+      try {
+        const res = await getChat(activeChatId);
+        setMessages(res.data?.messages || []);
+      } catch {
+        setMessagesError("Failed to load messages.");
+      } finally {
+        setIsLoadingMessages(false);
+      }
+    };
+
+    load();
+  }, [activeChatId]);
+
   const handleCreateChat = async () => {
     const title = newChatTitle.trim() || "New Chat";
     setIsCreatingChat(false);
