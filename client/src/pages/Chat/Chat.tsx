@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { getChats, createChat } from "../../utils/api";
-import type { Chat as ChatType } from "../../utils/api";
+import { getChats, createChat, getChat } from "../../utils/api";
+import type { Chat as ChatType, Message } from "../../utils/api";
 import "./Chat.css";
 
 export default function Chat() {
@@ -10,6 +10,9 @@ export default function Chat() {
   const [isLoadingChats, setIsLoadingChats] = useState<boolean>(true);
   const [isCreatingChat, setIsCreatingChat] = useState<boolean>(false);
   const [newChatTitle, setNewChatTitle] = useState<string>("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(false);
+  const [messagesError, setMessagesError] = useState<string>("");
 
   useEffect(() => {
     const load = async () => {
