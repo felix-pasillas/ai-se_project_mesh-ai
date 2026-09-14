@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getChats, createChat, getChat } from "../../utils/api";
+import { getChats, createChat, getChat, sendMessage } from "../../utils/api";
 import type { Chat as ChatType, Message } from "../../utils/api";
 import ReactMarkdown from "react-markdown";
 import "./Chat.css";
@@ -64,6 +64,48 @@ export default function Chat() {
       }
     } catch {
       // A toast or inline error could go here in the future
+    }
+  };
+
+  const handleSend = async () => {
+    const text = input.trim();
+    if (!text || !activeChatId || isSending) return;
+
+    const userMessage: Message = {
+      _id: Date.now().toString(),
+      chatId: activeChatId,
+      role: "user",
+      content: text,
+      createdAt: new Date().toISOString(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsSending(true);
+
+    try {
+      const res = await sendMessage(activeChatId, text);
+      if (res.data) {
+        setMessages((prev) => [...prev, res.data!]);
+      }
+    } catch {
+      const errorMessage: Message = {
+        _id: Date.now().toString(),
+        chatId: activeChatId,
+        role: "assistant",
+        content: "Something went wrong. Please try again.",
+        createdAt: new Date().toISOString(),
+      };
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSend();
     }
   };
 
@@ -196,8 +238,15 @@ export default function Chat() {
                 rows={1}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
+                onKeyDown={handleKeyDown}
+                disabled={isSending}
               />
-              <button className="chat__send" aria-label="Send message">
+              <button
+                className="chat__send"
+                aria-label="Send message"
+                onClick={handleSend}
+                disabled={isSending || !input.trim()}
+              >
                 <svg
                   width="16"
                   height="16"

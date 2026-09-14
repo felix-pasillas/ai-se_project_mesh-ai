@@ -269,6 +269,11 @@
   color: #9ca3af;
 }
 
+.chat__input:disabled {
+  cursor: not-allowed;
+  color: #9ca3af;
+}
+
 .chat__send {
   flex-shrink: 0;
   width: 28px;
@@ -285,4 +290,13 @@
 
 .chat__send:hover {
   background: rgba(150, 121, 217, 0.08);
+}
+
+.chat__send:disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.chat__send:disabled:hover {
+  background: transparent;
 }
