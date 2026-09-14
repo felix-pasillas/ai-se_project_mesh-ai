@@ -167,24 +167,51 @@ export default function Chat() {
         )}
 
         {activeChatId && !isLoadingMessages && !messagesError && (
-          <ul className="chat__messages">
-            {messages.map((msg) => (
-              <li
-                key={msg._id}
-                className={
-                  msg.role === "user"
-                    ? "chat__message chat__message_user"
-                    : "chat__message chat__message_assistant"
-                }
-              >
-                {msg.role === "assistant" ? (
-                  <ReactMarkdown>{msg.content}</ReactMarkdown>
-                ) : (
-                  msg.content
-                )}
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul className="chat__messages">
+              {messages.map((msg) => (
+                <li
+                  key={msg._id}
+                  className={
+                    msg.role === "user"
+                      ? "chat__message chat__message_user"
+                      : "chat__message chat__message_assistant"
+                  }
+                >
+                  {msg.role === "assistant" ? (
+                    <ReactMarkdown>{msg.content}</ReactMarkdown>
+                  ) : (
+                    msg.content
+                  )}
+                </li>
+              ))}
+            </ul>
+
+            <div className="chat__input-bar">
+              <textarea
+                className="chat__input"
+                placeholder="Ask any question"
+                rows={1}
+              />
+              <button className="chat__send" aria-label="Send message">
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M14.6667 1.33333L7.33333 8.66667M14.6667 1.33333L10 14.6667L7.33333 8.66667M14.6667 1.33333L1.33333 6L7.33333 8.66667"
+                    stroke="currentColor"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </>
         )}
       </div>
     </div>
