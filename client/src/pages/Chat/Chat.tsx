@@ -14,6 +14,8 @@ export default function Chat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoadingMessages, setIsLoadingMessages] = useState<boolean>(false);
   const [messagesError, setMessagesError] = useState<string>("");
+  const [input, setInput] = useState<string>("");
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   useEffect(() => {
     const load = async () => {
@@ -192,6 +194,8 @@ export default function Chat() {
                 className="chat__input"
                 placeholder="Ask any question"
                 rows={1}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
               />
               <button className="chat__send" aria-label="Send message">
                 <svg
