@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { getChats, createChat, getChat } from "../../utils/api";
 import type { Chat as ChatType, Message } from "../../utils/api";
+import ReactMarkdown from "react-markdown";
 import "./Chat.css";
 
 export default function Chat() {
@@ -115,7 +116,77 @@ export default function Chat() {
         </ul>
       </aside>
 
-      <div className="chat__main">{/* message area — coming next lesson */}</div>
+      <div className="chat__main">
+        {!messagesError && !isLoadingMessages && !activeChatId && (
+          <div className="chat__no-messages">
+            <p className="chat__prompt-text">
+              Create a new chat or select an existing chat to start the
+              conversation
+            </p>
+            <button
+              className="chat__start-btn"
+              type="button"
+              onClick={() => setIsCreatingChat(true)}
+            >
+              Start New Chat
+            </button>
+          </div>
+        )}
+
+        {!messagesError && !isLoadingMessages && activeChatId && messages.length === 0 && (
+          <div className="chat__no-messages">
+            <p className="chat__prompt-text">
+              Ask a question below to start the conversation
+            </p>
+          </div>
+        )}
+
+        {activeChatId && isLoadingMessages && (
+          <p className="chat__no-messages chat__prompt-text">Loading...</p>
+        )}
+
+        {activeChatId && messagesError && (
+          <div className="chat__error">
+            <div className="chat__error-icon" aria-hidden="true">
+              ⚠
+            </div>
+            <p className="chat__error-title">
+              Looks like something went wrong
+            </p>
+            <p className="chat__error-subtext">
+              Try reloading the page or creating the chat again
+            </p>
+            <button
+              className="chat__start-btn"
+              type="button"
+              onClick={() => setActiveChatId(null)}
+            >
+              Go to the Main Page
+            </button>
+          </div>
+        )}
+
+        {activeChatId && !isLoadingMessages && !messagesError && (
+          <ul className="chat__messages">
+            {messages.map((msg) => (
+              <li
+                key={msg._id}
+                className={
+                  msg.role === "user"
+                    ? "chat__message chat__message_user"
+                    : "chat__message chat__message_assistant"
+                }
+              >
+                {msg.role === "assistant" ? (
+                  <ReactMarkdown>{msg.content}</ReactMarkdown>
+                ) : (
+                  msg.content
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }
