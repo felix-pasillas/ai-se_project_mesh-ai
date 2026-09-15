@@ -1,10 +1,19 @@
 import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
 import { getChats, createChat, getChat, sendMessage } from "../../utils/api";
 import type { Chat as ChatType, Message } from "../../utils/api";
 import ReactMarkdown from "react-markdown";
 import "./Chat.css";
 
+type MobileContext = {
+  isMobileMenuOpen: boolean;
+  setIsMobileMenuOpen: (open: boolean) => void;
+};
+
 export default function Chat() {
+  const { isMobileMenuOpen, setIsMobileMenuOpen } =
+    useOutletContext<MobileContext>();
+
   const [chats, setChats] = useState<ChatType[]>([]);
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
   const [chatsError, setChatsError] = useState<string | null>(null);
@@ -61,6 +70,7 @@ export default function Chat() {
       if (res.data) {
         setChats((prev) => [res.data!, ...prev]);
         setActiveChatId(res.data._id);
+        setIsMobileMenuOpen(false);
       }
     } catch {
       // A toast or inline error could go here in the future
@@ -111,7 +121,11 @@ export default function Chat() {
 
   return (
     <div className="chat">
-      <aside className="chat__sidebar">
+      <aside
+        className={`chat__sidebar${
+          isMobileMenuOpen ? " chat__sidebar_open" : ""
+        }`}
+      >
         <button
           className="chat__new-btn"
           type="button"
@@ -151,7 +165,10 @@ export default function Chat() {
                     ? "chat__item chat__item_active"
                     : "chat__item"
                 }
-                onClick={() => setActiveChatId(chat._id)}
+                onClick={() => {
+                  setActiveChatId(chat._id);
+                  setIsMobileMenuOpen(false);
+                }}
               >
                 {chat.title}
               </button>
@@ -170,7 +187,10 @@ export default function Chat() {
             <button
               className="chat__start-btn"
               type="button"
-              onClick={() => setIsCreatingChat(true)}
+              onClick={() => {
+                setIsCreatingChat(true);
+                setIsMobileMenuOpen(true);
+              }}
             >
               Start New Chat
             </button>
