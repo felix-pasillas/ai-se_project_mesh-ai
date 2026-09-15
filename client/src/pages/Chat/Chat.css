@@ -300,3 +300,37 @@
 .chat__send:disabled:hover {
   background: transparent;
 }
+
+@media (max-width: 1200px) {
+  .chat__sidebar {
+    position: fixed;
+    top: 47px;
+    left: 0;
+    bottom: 0;
+    width: 75%;
+    height: 70%;
+    max-width: 255px;
+    z-index: 102;
+    background: #fff;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .chat__sidebar_open {
+    transform: translateX(0);
+  }
+
+  .chat__main {
+    height: auto;
+    min-height: auto;
+    overflow: visible;
+  }
+
+  .chat__messages,
+  .chat__input-bar {
+    margin-left: 0;
+  }
+}
