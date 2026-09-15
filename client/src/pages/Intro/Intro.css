@@ -72,15 +72,18 @@
   background-color: #2d1b69;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 1200px) {
   .intro {
     padding: 0 24px;
   }
 
   .intro__card {
     width: 100%;
+    max-width: 670px;
   }
+}
 
+@media (max-width: 480px) {
   .intro__features {
     flex-direction: column;
   }
