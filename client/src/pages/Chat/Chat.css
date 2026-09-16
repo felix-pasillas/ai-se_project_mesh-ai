@@ -293,8 +293,11 @@
 }
 
 .chat__send:disabled {
-  color: #9ca3af;
   cursor: not-allowed;
+}
+
+.chat__send:disabled .chat__send-icon {
+  opacity: 0.4;
 }
 
 .chat__send:disabled:hover {

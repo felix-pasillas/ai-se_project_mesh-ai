@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import { getChats, createChat, getChat, sendMessage } from "../../utils/api";
 import type { Chat as ChatType, Message } from "../../utils/api";
 import ReactMarkdown from "react-markdown";
+import sendIcon from "../../assets/icon-send.svg";
 import "./Chat.css";
 
 type MobileContext = {
@@ -267,21 +268,7 @@ export default function Chat() {
                 onClick={handleSend}
                 disabled={isSending || !input.trim()}
               >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M14.6667 1.33333L7.33333 8.66667M14.6667 1.33333L10 14.6667L7.33333 8.66667M14.6667 1.33333L1.33333 6L7.33333 8.66667"
-                    stroke="currentColor"
-                    strokeWidth="1.3"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <img src={sendIcon} alt="" className="chat__send-icon" />
               </button>
             </div>
           </>
