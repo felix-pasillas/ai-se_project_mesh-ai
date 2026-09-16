@@ -17,15 +17,27 @@ export default function Intro() {
         <h1 className="intro__heading">Welcome to Mesh AI</h1>
         <div className="intro__features">
           <div className="intro__feature">
-            <img src={iconDocuments} alt="" className="intro__feature-icon" />
+            <img
+              src={iconDocuments}
+              alt="Stacked documents"
+              className="intro__feature-icon"
+            />
             <p>Bring all your documents into one secure AI workspace</p>
           </div>
           <div className="intro__feature">
-            <img src={iconOrganize} alt="" className="intro__feature-icon" />
+            <img
+              src={iconOrganize}
+              alt="Folder containing a document"
+              className="intro__feature-icon"
+            />
             <p>Organize and manage the documents that power your AI</p>
           </div>
           <div className="intro__feature">
-            <img src={iconSparkle} alt="" className="intro__feature-icon" />
+            <img
+              src={iconSparkle}
+              alt="Sparkle over stacked documents"
+              className="intro__feature-icon"
+            />
             <p>Your knowledge base, accessible through a simple chat interface</p>
           </div>
         </div>
