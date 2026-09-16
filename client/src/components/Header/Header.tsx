@@ -24,8 +24,8 @@ export default function Header({
       <button
         type="button"
         className="header__menu-btn"
-        aria-label="Open menu"
-        onClick={onMenuOpen}
+        aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+        onClick={isMobileMenuOpen ? onMenuClose : onMenuOpen}
       />
       <img src={logo} alt="Mesh AI" className="header__logo" />
       <nav
