@@ -103,32 +103,8 @@ export const uploadDocument = async (
   return res.json();
 };
 
-export const getChats = async (): Promise<ApiResponse<Chat[]>> => {
-  await delay(700);
-  return {
-    success: true,
-    data: [
-      {
-        _id: "c1",
-        title: "What is posthog",
-        userId: "u1",
-        createdAt: new Date().toISOString(),
-      },
-      {
-        _id: "c2",
-        title: "Who are our users",
-        userId: "u1",
-        createdAt: new Date().toISOString(),
-      },
-      {
-        _id: "c3",
-        title: "Marketing Hypothesis",
-        userId: "u1",
-        createdAt: new Date().toISOString(),
-      },
-    ],
-    error: null,
-  };
+export const getChats = (): Promise<ApiResponse<Chat[]>> => {
+  return request<Chat[]>(`${BASE_URL}/chats`);
 };
 
 export const getChat = async (
