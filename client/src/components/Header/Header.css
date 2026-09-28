@@ -49,10 +49,6 @@
     display: block;
   }
 
-  .header__logo {
-    margin-left: auto;
-  }
-
   .header__nav {
     position: fixed;
     top: 47px;
