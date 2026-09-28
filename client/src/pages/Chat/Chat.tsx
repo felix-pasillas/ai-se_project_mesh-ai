@@ -94,7 +94,7 @@ export default function Chat() {
     setInput("");
     setIsSending(true);
 
-      try {
+    try {
       const res = await sendMessage(activeChatId, text);
       if (res.data) {
         setMessages((prev) => [
@@ -253,6 +253,11 @@ export default function Chat() {
                   )}
                 </li>
               ))}
+              {isSending && (
+                <li className="chat__message chat__message_assistant chat__message_thinking">
+                  Thinking…
+                </li>
+              )}
             </ul>
 
             <div className="chat__input-bar">
