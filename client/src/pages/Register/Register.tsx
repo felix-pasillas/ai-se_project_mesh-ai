@@ -1,5 +1,7 @@
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useFormWithValidation } from "../../hooks/useFormWithValidation";
+import { registerUser } from "../../utils/api";
 import logo from "../../assets/logo.png";
 
 function getTabClass({ isActive }: { isActive: boolean }) {
@@ -8,10 +10,25 @@ function getTabClass({ isActive }: { isActive: boolean }) {
 
 export default function Register() {
   const { values, errors, isValid, handleChange } = useFormWithValidation();
+  const [submitError, setSubmitError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(values);
+    setSubmitError("");
+    setIsSubmitting(true);
+
+    try {
+      await registerUser(values.name, values.email, values.password);
+      navigate("/login");
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : "Something went wrong",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -85,13 +102,14 @@ export default function Register() {
             />
             <span className="form__error">{errors.password}</span>
 
-            {/* API errors will show here once the form is connected */}
-            <p className="form__status" aria-live="polite" />
+            <p className="form__status" aria-live="polite">
+              {submitError}
+            </p>
 
             <button
               className="form__submit"
               type="submit"
-              disabled={!isValid}
+              disabled={!isValid || isSubmitting}
             >
               Create account
             </button>
