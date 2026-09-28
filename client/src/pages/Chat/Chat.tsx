@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useOutletContext } from "react-router-dom";
 import { getChats, createChat, getChat, sendMessage } from "../../utils/api";
 import type { Chat as ChatType, Message } from "../../utils/api";
@@ -26,6 +26,7 @@ export default function Chat() {
   const [messagesError, setMessagesError] = useState<string>("");
   const [input, setInput] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
+  const messagesEndRef = useRef<HTMLLIElement>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -61,6 +62,10 @@ export default function Chat() {
 
     load();
   }, [activeChatId]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   const handleCreateChat = async () => {
     const title = newChatTitle.trim() || "New Chat";
@@ -258,6 +263,7 @@ export default function Chat() {
                   Thinking…
                 </li>
               )}
+              <li ref={messagesEndRef} />
             </ul>
 
             <div className="chat__input-bar">
