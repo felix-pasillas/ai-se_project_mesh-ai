@@ -1,5 +1,4 @@
 import type { CurrentUser } from "../types";
-const delay = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
 export type KnowledgeDoc = {
   _id: string;
@@ -120,22 +119,14 @@ export const createChat = (title: string): Promise<ApiResponse<Chat>> => {
   });
 };
 
-export const sendMessage = async (
+export const sendMessage = (
   chatId: string,
   question: string,
-): Promise<ApiResponse<Message>> => {
-  await delay(1500);
-  return {
-    success: true,
-    data: {
-      _id: Date.now().toString(),
-      chatId,
-      role: "assistant",
-      content: `This is a simulated response to: "${question}"`,
-      createdAt: new Date().toISOString(),
-    },
-    error: null,
-  };
+): Promise<ApiResponse<Message[]>> => {
+  return request<Message[]>(`${BASE_URL}/chats/${chatId}/messages`, {
+    method: "POST",
+    body: JSON.stringify({ question }),
+  });
 };
 
 export function loginUser(email: string, password: string) {

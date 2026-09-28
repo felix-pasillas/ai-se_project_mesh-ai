@@ -94,10 +94,13 @@ export default function Chat() {
     setInput("");
     setIsSending(true);
 
-    try {
+      try {
       const res = await sendMessage(activeChatId, text);
       if (res.data) {
-        setMessages((prev) => [...prev, res.data!]);
+        setMessages((prev) => [
+          ...prev.filter((m) => m._id !== userMessage._id),
+          ...res.data!,
+        ]);
       }
     } catch {
       const errorMessage: Message = {
