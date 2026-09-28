@@ -228,18 +228,11 @@ export const getChat = async (
   };
 };
 
-export const createChat = async (title: string): Promise<ApiResponse<Chat>> => {
-  await delay(400);
-  return {
-    success: true,
-    data: {
-      _id: Date.now().toString(),
-      title,
-      userId: "u1",
-      createdAt: new Date().toISOString(),
-    },
-    error: null,
-  };
+export const createChat = (title: string): Promise<ApiResponse<Chat>> => {
+  return request<Chat>(`${BASE_URL}/chats`, {
+    method: "POST",
+    body: JSON.stringify({ title }),
+  });
 };
 
 export const sendMessage = async (
