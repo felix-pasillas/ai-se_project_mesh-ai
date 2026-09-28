@@ -32,9 +32,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return;
     }
     getCurrentUser()
-      .then((user) => {
-        setCurrentUser(user);
-        setIsAuthenticated(true);
+      .then((res) => {
+        if (res.data) {
+          setCurrentUser(res.data);
+          setIsAuthenticated(true);
+        }
       })
       .catch(() => {
         localStorage.removeItem("auth-token");
