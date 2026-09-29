@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import "./KnowledgeBase.css";
 import UploadArea from "../../components/UploadArea/UploadArea";
 import type { KnowledgeDoc } from "../../utils/api";
-import { getDocuments, uploadDocument } from "../../utils/api";
+import { getDocuments, uploadDocument, deleteDocument } from "../../utils/api";
 
 export default function KnowledgeBase() {
   const [documents, setDocuments] = useState<KnowledgeDoc[]>([]);
@@ -39,6 +39,15 @@ export default function KnowledgeBase() {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteDocument(id);
+      setDocuments((prev) => prev.filter((doc) => doc._id !== id));
+    } catch {
+      setError("Failed to delete document.");
+    }
+  };
+
   return (
     <div className="knowledge-base">
       <h1>Manage Your Knowledge Base</h1>
@@ -59,6 +68,7 @@ export default function KnowledgeBase() {
                   type="button"
                   className="knowledge-base__chip-remove"
                   aria-label={`Remove ${doc.fileName}`}
+                  onClick={() => handleDelete(doc._id)}
                 >
                   <svg
                     width="12"

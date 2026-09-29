@@ -102,6 +102,36 @@ export const uploadDocument = async (
   return res.json();
 };
 
+export const deleteDocument = async (
+  id: string,
+): Promise<ApiResponse<null>> => {
+  const token = localStorage.getItem("auth-token") ?? "";
+
+  const res = await fetch(`${BASE_URL}/documents/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (res.status === 401) {
+    const body = await res.json().catch(() => null);
+    const message = body?.error?.message || "Invalid credentials";
+    if (localStorage.getItem("auth-token")) {
+      localStorage.removeItem("auth-token");
+      window.location.href = "/login";
+    }
+    throw new Error(message);
+  }
+
+  if (!res.ok) {
+    const body = await res.json().catch(() => null);
+    throw new Error(body?.error?.message || "Request failed");
+  }
+
+  return { success: true, data: null, error: null };
+};
+
 export const getChats = (): Promise<ApiResponse<Chat[]>> => {
   return request<Chat[]>(`${BASE_URL}/chats`);
 };
