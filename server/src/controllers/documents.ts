@@ -5,6 +5,14 @@ import Document from '../models/document.js';
 import Chunk from '../models/chunk.js';
 import { chunkText } from '../utils/chunk.js';
 import { createEmbedding } from '../utils/embeddings.js';
+import {
+  getCacheValue,
+  setCacheValue,
+  deleteCacheValue,
+} from '../utils/cache.js';
+
+const documentsCacheKey = (userId: string): string =>
+  `documents-list:${userId}`;
 
 export const uploadDocument = async (
   req: Request,
@@ -32,6 +40,8 @@ export const uploadDocument = async (
     userId,
   });
 
+  deleteCacheValue(documentsCacheKey(userId));
+
   const chunks = chunkText(parsed.text);
 
   await Promise.all(
@@ -53,14 +63,26 @@ export const getDocuments = async (
   res: Response
 ): Promise<void> => {
   const userId = req.user!.userId;
+  const cacheKey = documentsCacheKey(userId);
+
+  const cached = getCacheValue(cacheKey);
+
+  if (cached) {
+    res.status(200).json(cached);
+    return;
+  }
 
   const documents = await Document.find({ userId });
 
-  res.status(200).json({
+  const response = {
     success: true,
     data: documents,
     error: null,
-  });
+  };
+
+  setCacheValue(cacheKey, response, 30 * 1000);
+
+  res.status(200).json(response);
 };
 
 export const getDocumentById = async (
@@ -106,6 +128,8 @@ export const deleteDocument = async (
     });
     return;
   }
+
+  deleteCacheValue(documentsCacheKey(userId));
 
   res.status(204).send();
 };
