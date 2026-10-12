@@ -32,7 +32,8 @@
     "morgan": "^1.12.1",
     "multer": "^2.2.0",
     "openai": "^6.49.0",
-    "pdf-parse": "^2.4.5"
+    "pdf-parse": "^2.4.5",
+    "winston": "^3.19.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

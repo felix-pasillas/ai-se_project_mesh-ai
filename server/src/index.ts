@@ -4,14 +4,15 @@ dotenv.config();
 import express from 'express';
 import mongoose from 'mongoose';
 import router from './routes/index.js';
-import { logger } from './middleware/logger.js';
+import { requestLogger } from './middleware/logger.js';
 import { notFoundHandler, errorHandler } from './middleware/error.js';
+import { logger } from './utils/logger.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(logger);
+app.use(requestLogger);
 
 app.use(router);
 
@@ -29,9 +30,14 @@ app.use(errorHandler);
 mongoose
   .connect(process.env.MONGO_URI!)
   .then(() => {
-    console.log('MongoDB connected');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    logger.info('MongoDB connected');
+    app.listen(PORT, () =>
+      logger.info(`Server running on port ${PORT}`, {
+        port: PORT,
+        env: process.env.NODE_ENV,
+      })
+    );
   })
   .catch((err) => {
-    console.error('Connection error', err);
+    logger.error(`Connection error: ${err.message}`, { stack: err.stack });
   });
