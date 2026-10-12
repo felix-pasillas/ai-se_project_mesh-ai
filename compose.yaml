@@ -1,0 +1,38 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build: ./server
+    restart: unless-stopped
+    environment:
+      MONGO_URI: mongodb://mongo:27017/meshai
+      JWT_SECRET: ${JWT_SECRET}
+      NEBIUS_API_KEY: ${NEBIUS_API_KEY}
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./client
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - backend
+
+volumes:
+  mongo_data:
+  caddy_data:
+  caddy_config:
+  uploads_data:
