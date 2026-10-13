@@ -8,6 +8,7 @@ import { notFoundHandler, errorHandler } from './middleware/error.js';
 import { logger } from './utils/logger.js';
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
