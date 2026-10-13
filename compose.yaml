@@ -13,8 +13,6 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       NEBIUS_API_KEY: ${NEBIUS_API_KEY}
       NODE_ENV: production
-    ports:
-      - "3000:3000"
     volumes:
       - uploads_data:/app/uploads
     depends_on:
@@ -23,13 +21,24 @@ services:
   frontend:
     build: ./client
     restart: unless-stopped
+    depends_on:
+      - backend
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
     ports:
       - "80:80"
+      - "443:443"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS}
     volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy_data:/data
       - caddy_config:/config
     depends_on:
       - backend
+      - frontend
 
 volumes:
   mongo_data:
