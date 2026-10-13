@@ -30,4 +30,4 @@ export const setCacheValue = (
 
 export const deleteCacheValue = (key: string): void => {
   cache.delete(key);
-};
+};const unusedValue = 1;
