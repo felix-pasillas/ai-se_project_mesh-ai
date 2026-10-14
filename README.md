@@ -65,3 +65,9 @@ In the Docker setup, Compose points the backend at the bundled MongoDB container
 ## Deployment
 
 The app runs on an AWS EC2 instance with Docker Compose. Caddy terminates HTTPS and routes `/api/*` to the backend (stripping the `/api` prefix) and everything else to the frontend container. GitHub Actions validates the client and server (install, build, lint) on every pull request and on every push to `main`.
+
+## Project Pitch Video
+
+Check out this video, where I describe my
+project and some challenges I faced while building it.
+https://drive.google.com/file/d/1yakyYihVsqieXPGpvPwySml5YqwCULEX/view?usp=sharing
